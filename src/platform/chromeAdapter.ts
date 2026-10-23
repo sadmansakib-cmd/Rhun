@@ -36,11 +36,11 @@ export const chromeAdapter: PlatformAdapter = {
 
   async auditInstalledExtensions(): Promise<AuditedExtension[]> {
     if (!isChromeExtensionApiAvailable() || !chrome.management || !chrome.management.getAll) {
-      // Fallback sample for Web/Dev simulation when outside of Chrome extension
+      // Fallback sample for Web/Dev simulation when outside of Chrome extension — clearly labeled as DEMO
       return [
         {
-          id: 'ext-unpacked-sample',
-          name: 'Free Proxy & VPN Helper (Development)',
+          id: 'demo-ext-unpacked-sample',
+          name: '[DEMO] Sample Unpacked Proxy Helper',
           version: '1.4.2',
           enabled: true,
           installType: 'development',
@@ -67,14 +67,14 @@ export const chromeAdapter: PlatformAdapter = {
             }
           ],
           optionalPermissions: ['notifications'],
-          lastUpdated: 'Unpacked extension',
+          lastUpdated: 'Demo Preview (Simulated)',
           riskLevel: 'high',
-          explanationEn: 'Installed in Developer Mode with <all_urls> and clipboardRead permissions. High risk of session hijacking or data theft.',
-          explanationBn: 'ডেভেলপার মোডে লোড করা এবং সব ওয়েবসাইটের ডেটা ও ক্লিপবোর্ড পড়ার অনুমতি রয়েছে। এটি ঝুঁকিপূর্ণ।'
+          explanationEn: '[DEMO ONLY - NOT A REAL DEVICE EXTENSION] Demonstrates warning for extensions with <all_urls> and clipboard permissions.',
+          explanationBn: '[শুধুমাত্র ডেমো প্রিভিউ - আসল ডিভাইসের ডেটা নয়] সব ওয়েবসাইটের ডেটা ও ক্লিপবোর্ড পড়ার অনুমতি থাকলে কীভাবে সতর্কতা দেখানো হয় তা প্রদর্শিত হচ্ছে।'
         },
         {
-          id: 'ext-active-tab-clean',
-          name: 'Avro & Bangla Web Reader',
+          id: 'demo-ext-active-tab-clean',
+          name: '[DEMO] Sample Bangla Reader',
           version: '2.0.1',
           enabled: true,
           installType: 'normal',
@@ -95,10 +95,10 @@ export const chromeAdapter: PlatformAdapter = {
             }
           ],
           optionalPermissions: [],
-          lastUpdated: 'Chrome Web Store',
+          lastUpdated: 'Demo Preview (Simulated)',
           riskLevel: 'safe',
-          explanationEn: 'Uses minimal activeTab permission instead of broad host access. Cannot inspect browsing in background.',
-          explanationBn: 'নিরাপদ activeTab অনুমতি ব্যবহার করে, ব্যাকগ্রাউন্ডে ব্রাউজিং ট্র্যাক করতে পারে না।'
+          explanationEn: '[DEMO ONLY - NOT A REAL DEVICE EXTENSION] Demonstrates safe rating for extensions using minimal activeTab permissions.',
+          explanationBn: '[শুধুমাত্র ডেমো প্রিভিউ - আসল ডিভাইসের ডেটা নয়] নিরাপদ activeTab পারমিশন ব্যবহারের নমুনা প্রদর্শিত হচ্ছে।'
         }
       ];
     }

@@ -370,8 +370,24 @@ export default function App({ initialPopupMode = false }: AppProps) {
                       )}
                       <div>
                         <div className="text-sm font-bold text-white uppercase tracking-wider">
-                          Verdict: {scanResult.verdict}
+                          Verdict:{' '}
+                          {scanResult.verdict === 'safe' ? (
+                            <span className="text-emerald-400 normal-case">
+                              {language === 'bn'
+                                ? 'কোনো পরিচিত হুমকি পাওয়া যায়নি'
+                                : 'No known threats found'}
+                            </span>
+                          ) : (
+                            scanResult.verdict
+                          )}
                         </div>
+                        {scanResult.verdict === 'safe' && (
+                          <div className="text-[11px] text-amber-300/90 font-normal mt-0.5 normal-case">
+                            {language === 'bn'
+                              ? '⚠ এটি সম্পূর্ণ নিরাপত্তার নিশ্চয়তা দেয় না।'
+                              : '⚠ This does not guarantee safety.'}
+                          </div>
+                        )}
                         <div className="text-[11px] text-slate-400 font-mono">{scanResult.domain}</div>
                       </div>
                     </div>

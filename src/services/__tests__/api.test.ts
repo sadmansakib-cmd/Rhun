@@ -17,6 +17,15 @@ describe('Service Layer: scanUrl', () => {
     expect(result.riskScore).toBeGreaterThanOrEqual(5);
     expect(result.riskScore).toBeLessThan(20);
   });
+
+  it('reports external threat intelligence sources as unavailable in DEMO_MODE, never falsely clean', async () => {
+    const result = await scanUrl('https://example.com');
+    expect(result.sources.safeBrowsing).toBe('unavailable');
+    expect(result.sources.virusTotal).toBe('unavailable');
+    expect(result.sources.urlHaus).toBe('unavailable');
+    expect(result.sources.safeBrowsing).not.toBe('clean');
+    expect(result.sources.urlHaus).not.toBe('clean');
+  });
 });
 
 describe('Service Layer: scanApk', () => {

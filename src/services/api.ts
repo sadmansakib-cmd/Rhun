@@ -82,16 +82,18 @@ export async function scanUrl(rawUrl: string): Promise<ScanResult> {
       }
     } catch (_err) {
       // Graceful degradation: Worker error does not crash the scan, local findings are retained
-      sourcesStatus.safeBrowsing = 'error';
-      sourcesStatus.virusTotal = 'error';
-      sourcesStatus.urlHaus = 'error';
+      sourcesStatus.safeBrowsing = 'unavailable';
+      sourcesStatus.virusTotal = 'unavailable';
+      sourcesStatus.urlHaus = 'unavailable';
+      sourcesStatus.rdapAge = 'unavailable';
     }
   } else {
     // DEMO_MODE: Worker is not configured.
-    // Simulate provider status cleanly to demonstrate UI while relying on the real local heuristics
-    sourcesStatus.safeBrowsing = 'clean';
+    // Provider status must honestly be 'unavailable', never falsely 'clean'
+    sourcesStatus.safeBrowsing = 'unavailable';
     sourcesStatus.virusTotal = 'unavailable';
-    sourcesStatus.urlHaus = 'clean';
+    sourcesStatus.urlHaus = 'unavailable';
+    sourcesStatus.rdapAge = 'unavailable';
   }
 
   const combinedReasons = Array.from(reasonsMap.values());
@@ -125,6 +127,17 @@ export async function scanUrl(rawUrl: string): Promise<ScanResult> {
   } else if (riskScore >= 20 || combinedReasons.length > 0) {
     verdict = 'suspicious';
     riskLevel = 'low';
+  }
+
+  if (combinedReasons.length === 0 && verdict === 'safe') {
+    combinedReasons.push({
+      code: 'NO_KNOWN_THREATS',
+      severity: 'info',
+      explanationEn: 'No known threats found. This does not guarantee safety.',
+      explanationBn: 'কোনো পরিচিত হুমকি পাওয়া যায়নি। তবে এটি সম্পূর্ণ নিরাপত্তার নিশ্চয়তা দেয় না।',
+      potentialHarmEn: 'Zero-day, newly registered, or unindexed threats cannot be completely ruled out by heuristic checks alone.',
+      potentialHarmBn: 'শুধুমাত্র লোকাল পরীক্ষায় একদম নতুন বা অপরিচিত ফিশিং সাইট পুরোপুরি ধরা নাও পড়তে পারে।'
+    });
   }
 
   return {
@@ -208,7 +221,7 @@ export async function scanApk(input: {
   const reasons: ScanReason[] = [];
   const identifiedPermCombos: string[] = [];
 
-  let hashStatus: SourceStatus = 'clean';
+  let hashStatus: SourceStatus = input.sha256 && PROXY_BASE_URL ? 'clean' : 'unavailable';
 
   // 1. Check SHA-256 via Cloudflare Worker if hash provided
   if (input.sha256 && PROXY_BASE_URL) {
