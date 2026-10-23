@@ -1,0 +1,13 @@
+name = "shield-proxy"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+
+[vars]
+ALLOWED_ORIGINS = "http://localhost:5173,http://localhost:4173,https://shield-security.pages.dev"
+ALLOWED_EXTENSION_ID = ""
+CACHE_TTL = "3600"
+
+# Secrets to be set via: npx wrangler secret put <NAME>
+# - SAFE_BROWSING_KEY
+# - VT_API_KEY
+# - ABUSECH_KEY

@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Shield Security</string>
+    <string name="dashboard_title">Shield Command</string>
+    <string name="apps_audit_title">Installed Apps Audit</string>
+    <string name="monitors_title">Monitors &amp; Guard</string>
+    <string name="extensions_title">Extension Audit</string>
+    <string name="platform_hub_title">Platform &amp; MV3</string>
+    <string name="check_this_page">Check this page / URL</string>
+    <string name="proceed_anyway">Proceed anyway</string>
+    <string name="go_back_safe">Go back to safety</string>
+</resources>
